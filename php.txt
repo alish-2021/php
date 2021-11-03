@@ -1,0 +1,530 @@
+1. Основы языка PHP
+Аргумент - это параметр который принимает значение и в дальнейшем можем редактировать. 
+
+
+1.1) $test = 'Тест';                  // Создаю переменную 
+1.2) $massive = ['test_1', 'test_2']; // Создаю обычный массив
+1.3)$massive = [
+      [
+         'key' = > "test_1";
+         'id' = "1";
+      ],
+      [                               // Массив ассоциативный, с ключами
+         'key' = > "test_2";
+         'id' = "2";
+      ],
+
+   ]
+
+1.4) $age_1 = 21;
+     if ($age > 18){
+        echo "Мне 21";     // Условие 
+     }
+
+1.5) $age_1 = 21;
+     switch($age_1){       // Здесь пишу переменную 
+         case "18";
+         echo "Я совершеннолетний";
+         break;
+
+         default:          // Изначально 
+         echo "Я несовершеннолетний";
+     }
+
+1.6) $posts = ['post-1', 'post-2', 'post-3'];
+     foreach($posts as $post){
+        echo $post;        // Foreach создаю цикл
+     }
+
+1.7) function my_func ($a = 10; $b = 15;){ // Создаю фунскцию 
+         echo $a + $b;
+     }
+     my_func(); // Здесь я вызываю функцию
+
+1.8) Разница между include и require:
+     inclide: Если есть ошибка, но при этом код дальше будет выполняться;
+     require: Если есть ошибка, то код дальше не будет выполняться
+
+1.9) $_POST 
+      <form action="index.php" method="post">
+         <input name="name" type="text">
+         <button>Sebd</button>
+      </form>
+      $name = $_POST['name'];
+      echo $name;
+
+      $content = "Имя: $name";    // Я приравниваю дынные к переменную
+      $file_name = "profile.tx";  // Здесь я пишу название файда, где должен хранить данные с перемнной $content
+      $fp = fopen($file_name, "W");   // Первым аргументом я указываю название файла, и действие
+      fwrite($fp, $content);        // Первым аргументом я указываю переменную и данные 
+      $fclose($fp)
+
+
+
+1.10) $_COOKIE
+      setcookie('название', 'значение')
+
+      <form action="index.php" method="post">
+         <input name="name" type="text"> // Здесь отправляю нового пользователя для cookie
+         <button>Sebd</button>
+      </form>
+
+      $users = [
+         [
+            'name' = > "alish"; // Я создал массив пользователей 
+         ]
+      ]
+
+      $name = $_POST['name']; // Здесь делаю цикл
+      foreach($users as $user){
+         if($user['name'] == $user){  // Здесь проверяю, если пользователь в массиве равен к пользователю отправленной формы то заносим в cookie
+            setcookie("name", $user);
+         }
+      }
+
+
+1.11) $_SESSION
+
+      session_start(); // В САМОМ НАЧАЛЕ НАДО ПИСАТЬ ЭТОТ, ИНАЧЕ SESSION НЕ БУДЕТ РАБОТАТЬ!!!
+      <form action="index.php" method="post">
+         <input name="name" type="text"> // Здесь отправляю нового пользователя для SESSION
+         <button>Sebd</button>
+      </form>
+
+      $name = $_POST['name']; // Здесь делаю цикл
+      foreach($users as $user){
+         if($user['name'] == $user){  // Здесь проверяю, если пользователь в массиве равен к пользователю отправленной формы то заносим в SESSION
+            $_SESSION['name'] = $user['name']; // Здесь я приравниваю SESSION к POST 
+         }
+      }
+
+1.12) $_FILE
+
+      <form action="index.php" method="post" action="index.php"  enctype="enctype="multipart/form-data">  // Для загрузки всегда пишем enctype="enctype="multipart/form-data"
+         <input name="image" type="file"> // Здесь отправляю загружаю картинку
+         <button>Seтd</button>
+      </form>
+
+      $image = $_FILES['image'];  // Здесь  $_FILES ассоциативный массив, по этому приравниваю к переменную
+      $image['name'] = $name // Название картинки
+      $image['tmp_name'] = $way // Временный путь, временное хранилище
+      move_uploaded_file('временное хранилище', 'название как надо сохранить, и куда'). Сам move_uploaded_file код для сохранения файла
+      move_uploaded_file($way, $name)
+
+
+1.13) База Данных (MySql)
+
+
+mysqli_set_connect($переменная с подключением к базе, "utf-8");
+$hash = $password_hash($переманная с паролем, PASSWORD_BCRYPT);
+
+
+      <form action="index.php" method="post">   
+         <input name="id" type="hidden">
+         <input name="title" type="text"> 
+         <button>Send</button>
+      </form>
+      $title = $_POST['title']
+      $id = $_POST['id']
+
+      $db = mysqli_connect('хост', 'пользователь или логин', 'пароль', 'база данных')
+      $db = mysqli_connect('localhost', 'mysql', 'mysql', 'php')  // Подключение к базе данных
+
+      $sql = mysqli_query('пожключение к базе', "INSERT INTO `таблица` (`id`, `название`) VALUES(NULL, 'значение')") // Подключение к таблице и добаление нового поста
+      $sql = mysqli_query($db, "INSERT INTO `posts` (`id`, `title`) VALUES(NULL, '$title')")
+
+      $posts = mysqli_query('пожключение к базе', "SELECT * FROM `таблица` ") // Подключение к таблице и вывод поста
+      $posts = mysqli_query($db, "SELECT * FROM `posts`")
+
+      $posts = mysqli_fetch_all('наввание нового массива') // Переоброзовываю всех постов в массив, posts я беру сверху
+      $posts = mysqli_fetch_all($posts)
+
+      foreach($posts as $post){  // Делаю цикл, и каждый пост вывожу отдельно
+         echo $post[0];
+         echo $post[1];
+         <a href="/posts?id=<?= $post[0];?>">Открыть пост</a> // Открываю страницу поста с помощь id
+         <a href="/edit?id=<?= $post[0];?>">Изменить пост</a> // Открываю страницу редактирование с помощь id 
+         <a href="/delete?id=<?= $post[0];?>">Удалить пост</a> // Открываю страницу удаления с помощь id 
+      }
+      <!----------Страница posts------------>
+      require "db.php"
+      $id = $_GET['id'] // Здесь я с помощью GET параметра беру id
+      $post = mysqli_query($db, "SELECT * FROM `posts` WHERE `id` = '$id'");  // и с помощью id я ищу в базе мне нужный пост
+      $post = mysqli_fetch_assoc($post) // Переоброзовываю именно мне нужный пост в массив ( mysqli_fetch_assoc выводит только один пост)
+      
+      echo $post['title'];
+      echo $post['description'];
+
+      <!----------Страница edit------------>
+      require "db.php"
+      $id = $_GET['id'] // Здесь я с помощью GET параметра беру id
+      $post = mysqli_query($db, "SELECT * FROM `posts` WHERE `id` = '$id'");  // и с помощью id я ищу в базе мне нужный пост
+      $post = mysqli_fetch_assoc($post) // Переоброзовываю именно мне нужный пост в массив ( mysqli_fetch_assoc выводит только один пост)
+
+      <form method="post" action="update.php">   
+         <input name="id" type="hidden" value="<?= $post['id']?>"> // Здесь передаю изночальные данные в  value
+         <input name="title" type="text" value="<?= $post['title']?>  
+         <button>Edit</button>
+      </form>
+
+      <!----------Страница update------------>
+      require "db.php"
+      $id = $_POST['id']
+      $title = $_POST['title']
+
+      UPDATE `таблица` SET `title` = 'новое значение' WHERE `таблица`.`id` = 1 (изначальный id) // Для обновления базы. Я здесь обновляю пост в талице благодаря оператору SET, и title даю новое значение, ГДЕ в табице post -> id равен к $_POST['id']
+      $update = mysqli_query($db, "UPDATE `posts` SET `title` = '$title' WHERE `posts`.`id` = '$id'")
+     
+      <!----------Страница delete------------>
+      require "db.php"
+      $id = $_GET['id'] // С помощью GET
+      $title = $_GET['title']
+      $delete = mysqli_query($db, DELETE FROM `posts` WHERE `posts`.`id` = '$id') // Для удаления 
+
+
+
+
+2. ORM REDBEANPHP И ЗАЩИТА ДАННЫХ ОТ SQL ИНЪЕКЦИЙ
+
+2.1 Создание поста с помощью REDBEANPHP и.т.д
+REDBEANPHP - это библиотека, мы используем его упрощенной подключение к базе данных
+
+<!----------Страница index------------>
+<?php
+include "vendor/db.php"; // Подключение п
+$users  = R::findAll('users'); // Вывод всех постов, FINDALL - отвечает за вывод всех постов с таблицы
+
+?>
+
+<form action="vendor/add.php" method="post">
+   <p>Имя</p>
+   <input type="text" name="name">
+   <p>Логин</p>
+   <input type="text" name="login">
+   <p>Почта</p>
+   <input type="text" name="email">
+   <br>
+   <br>
+   <br>
+   <button type="submit">Добавить</button>
+</form>
+ 
+<table>
+   <tr>
+      <td>id</td>
+      <td>Имя</td>
+      <td>Логин</td>
+      <td>Почта</td>
+      <td>Редактировать</td>
+      <td>Удалить</td>
+   </tr>
+   <?php
+      foreach($users as $user){
+         ?>
+         <tr>
+            <td><?= $user['id']?></td>
+            <td><?= $user['name']?></td>
+            <td><?= $user['login']?></td>
+            <td><?= $user['email']?></td>
+            <td><a href="/vendor/edit.php?id=<?= $user['id']?>">edit</a></td> <!-- Здесь я ищу по ключу -> id-->
+            <td><a href="/vendor/delete.php?name=<?= $user['name']?>">delete</a></td><!-- Здесь я ищу по ключу -> name-->
+         </tr>
+         <?
+      }
+   ?>
+</table>
+
+<!----------Страница add------------>
+<?php
+include "db.php";
+
+$name = $_POST['name'];
+$login = $_POST['login'];
+$email = $_POST['email'];
+
+$user = R::dispense('users'); // Подключение  к таблице
+
+$user['name'] = $name; // 
+$user['login'] = $login;
+$user['email'] = $email;
+R::store($user); // Сохранение в таблицу
+?>
+   <h2>Добавлен - <?= $name?></h2>
+<?
+
+?>
+
+<!----------Страница db------------>
+<?php
+include "rb.php"; // Подключение к библиотеке
+R::setup( 'mysql:host=localhost;dbname=mvc','mysql', 'mysql' ); // Подключение к базе
+?>
+
+<!----------Страница edit------------>
+
+<?php
+include "db.php";
+$id = $_GET['id'];
+
+// $user = R::load('таблица', 'ключ (в данном случае id)') load - принимает таблицу и ключ
+$user = R::load('users', $id);
+
+?>
+
+<form action="save.php" method="post">
+   <input type="hidden" name="id" value="<?= $user['id']?>"> 
+   <p>Name</p>
+   <input type="text" name="name" value="<?= $user['name']?>">
+   <p>Login</p>
+   <input type="text" name="login" value="<?= $user['login']?>">
+   <p>Email</p>
+   <input type="text" name="email" value="<?= $user['email']?>">
+   <br>
+   <br>
+   <br>
+   <button type="submit">Edit post</button>
+</form>
+
+<!----------Страница save------------>
+<?php
+include "db.php";
+
+$id = $_POST['id'];
+$name = $_POST['name'];
+$login = $_POST['login'];
+$email = $_POST['email'];
+
+// $user = R::load('таблица', 'ключ которую я передал это id') Я использую LOAD потому что я передаю id ключ,
+// если передаваемый ключ например -> name тогда я использоваю FINDONE
+$user = R::load('users', $id);
+
+$user['id'] = $id;
+$user['name'] = $name; // Присваиваю    
+$user['login'] = $login;
+$user['email'] = $email;
+
+R::store($user); //Сохранение
+header('Location: edit.php?id =' .$id)
+?>
+
+
+<!----------Страница delete------------>
+
+<?php
+include "db.php";
+
+$name = $_GET['name']; // Получаю name
+//$user = R::findOne('таблица','ключ в данном случае name = ?', [переменная с GET парметра])
+$user = R::findOne('users','name = ?', [$name]); // Получаю
+R::trash($user); //Удаление
+header("Location: /");
+?>
+ 
+
+
+ 3. ООП
+ООП - это подход программированию, в которм основной идеей является использование объектов и классов
+Полиморфизм - это способность одного объекта иметь разные свойства, в зависимости от условий
+Инкапсуляция - это упаковка данныъ или функций в единый компонент
+
+
+$this-> относистся к текущему объекту (ссылка на класс объекта)
+self:: относистся к текущему классу 
+Класс - это проект объекта, таким образом я определяю класс, но я строю объект. (схема, чертеж)
+Объект - это экземпляр класса (ссылка статику без объекта)
+
+
+ 
+<!----------Созданиe объекта------------>
+
+$название_объекта = (object)[
+   "переменная" = "значение" // Создание объекта
+]
+echo $название_объекта->переменная = "значение новое"; // Вывод объекта
+
+
+$test = (object)[
+   "title" => "Title1"
+];
+echo $test->title;
+
+
+<!----------Созданиe static, __construct (Car.php)------------>
+
+class Car {
+   private $model;
+   private $color;
+   private $year;
+   private $horse; 
+
+
+   public function __construct($model, $color, $year, $horse){ // здесь я передаю в скобку переменные которые нужно присвоит к перемонной 
+      $this->model = $model;
+      $this->color = $color; // Присваеваю
+      $this->year = $year;
+      $this->horse = $horse;
+   }
+
+
+   public function show(){
+      $price = self::get_price($this->model, $this->year); // приваеваю к функции get_price к переменной, в статики принято обращаться SELF:: (это как $this->)
+      echo "
+            Model: $this->model;<br> // здесь я вывожу переменные с конструтора
+            Color: $this->color;<br>
+            Year: $this->year;<br>
+            Horse: $this->horse;<br>
+            Price: $price; // здесь вывожу цену как пременную
+      ";
+   }
+
+   public static function get_price($model, $year){ // Функция для получение цены с помощью статики, для статики нужно как и в котсрутор предать изночальные переменные или данные
+      $price = 0; // создаю переменную
+
+      if($model = "Lexus"){ // В статики не получится обращаться $this->, надо как обычная переменная
+         $price += 100;
+      } elseif($model = "Toyoto"){
+         $price += 50;
+      }
+
+      if($year = 2002){
+         $price += 100;
+      } elseif($year < 2002){
+         $price += 50;
+      }
+
+      return $price;
+   }
+
+}
+
+
+class Bject {
+   public static $mes;
+
+
+   public static function show_mes(){
+      return self::$mes; // Для статичной переменной
+   }
+}
+
+<!----------Вывод (index.php)------------>
+
+
+require "Car.php";
+$car = new Car('Lexus', 'Black', 2002, 1000); // здесь передаю дааные для котсруктора
+echo $car->show(); // Вывод обычных методов
+echo "<br><br>";
+
+echo Car::get_price('Lexus', 2002); // Вывод статики, здесь передаю данные в скобках как в конструтр
+echo "<br><br>";
+
+
+Bject::$mes = "Test"; // Передаю данные для статичного свойство без экземплчра
+echo Bject::show_mes(); // Вывод статичного метода без экземплчра
+ 
+
+
+<!----------Созданиe imena (index.php)------------>
+
+<?php
+
+require_once __DIR__ . "/vendor/autoload.php";
+
+$car = new \App\Cars\Car('Lexus', 'Black', 2002, 1000); 
+echo $car->show();  
+
+echo "<pre>"; 
+print_r($car->show());
+echo "</pre>";
+
+
+\App\Other\Other::test(); // Вывод пространство имен
+ 
+echo "<br><br>";
+
+// Второй способ ========================
+use App\Other\Other; // Подключаю имя
+Other::test(); // Вывод с помощью имя
+
+?>
+
+<!----------Созданиe imena (app/Cars/Car.php)------------>
+<?php 
+
+namespace App\Cars; // Пространство имен 
+//use App\Other\Details ; // Подключение пространтсво имен с другим именем, в конце добавляю класс 
+
+class Car extends Details { //Наследовние 
+   protected $model;
+   private $color;
+   private $year;
+   private $horse; 
+
+   public function __construct($model, $color, $year, $horse){ 
+      $this->model = $model;
+      $this->color = $color; 
+      $this->year = $year;
+      $this->horse = $horse;
+   }
+
+
+   public function show(){
+      return [
+         "model" => $this->model,
+         "color" => $this->color,
+         "year" => $this->year,
+         "horse" => $this->horse,
+         "price" => $this->get_price(), 
+         "tax" => $this->get_tax(),
+      ];
+   }
+
+   public function show_echo(){ 
+      $pric = $this->get_price(); 
+      $ta = $this->get_tax(); 
+      echo "
+         <p>Model: $this->model</p>
+         <p>Color: $this->color</p>
+         <p>Year: $this->year</p>
+         <p>Price: $pric</p> 
+         <p>Tax: $ta</p> 
+         ";
+   }
+
+   private function get_price(){
+      $price = 0; 
+      if($this->model = "Lexus"){ 
+         $price += 100;
+      } elseif($this->model = "Toyoto"){
+         $price += 50;
+      }
+
+      if($this->year = 2002){
+         $price += 100;
+      } elseif($this->year < 2002){
+         $price += 50;
+      }
+
+      return $price;
+   }
+
+}
+
+?>
+
+<!----------Наследовние imena (app/Cars/Details.php)------------>
+<?php
+namespace App\Cars; // Пространство имен
+
+class Details {
+   
+   public function get_tax(){
+      if($this->model = "Lexus"){
+         return "This's my car on the future";
+      }  else {
+         return "This isn't my car on the future";
+      }
+   }
+}
+
+?>
